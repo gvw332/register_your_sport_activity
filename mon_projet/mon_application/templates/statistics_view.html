@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Statistiques{% endblock %}
+
+{% block content %}
+
+<nav class="navigation_activites_objectifs_statistiques">
+    <ul>
+        <li><a href="{% url 'mon_application:activity_list' %}">Mes activités</a></li>
+        <li><a href="{% url 'mon_application:user_objectives' %}">Mes Objectifs</a></li>
+        <li><a href="{% url 'mon_application:statistics_view' %}">Mes statistiques</a></li>
+    </ul>
+</nav>
+
+    <h1>Statistiques Globales</h1>
+
+    <div class="statistics-section">
+
+        <h2>Total des kilomètres</h2>
+        <p>Total des kilomètres en marche : {{ total_marche }} km</p>
+        <p>Total des kilomètres en jogging : {{ total_jogging }} km</p>
+        <p>Total des kilomètres en vélo : {{ total_velo }} km</p>
+        <p>Total des kilomètres effectués : {{ total_km }} km</p>
+
+        <h2>Calories Brûlées</h2>
+
+        <p>Total des calories brûlées : {{ total_calories }} kcal</p>
+        <h2>Objectifs</h2>
+        <p>Objectif de marche : {{ user_objective.objectif_marche }} km</p>
+        <p>Objectif de jogging : {{ user_objective.objectif_jogging }} km</p>
+        <p>Objectif de vélo : {{ user_objective.objectif_velo }} km</p>
+        
+
+    </div>
+
+    <a href="{% url 'mon_application:activity_list' %}" class="btn btn-primary">Retour aux activités</a>
+
+
+{% endblock %}

@@ -2,9 +2,17 @@
 {% block title %} Liste des Activités {% endblock %}
 {% load static %}
 {% block content %}
+<nav class="navigation_activites_objectifs_statistiques">
+    <ul>
+        <li><a href="{% url 'mon_application:activity_list' %}">Mes activités</a></li>
+        <li><a href="{% url 'mon_application:user_objectives' %}">Mes Objectifs</a></li>
+        <li><a href="{% url 'mon_application:statistics_view' %}">Mes statistiques</a></li>
+    </ul>
+</nav>
+
 <div class="entete_liste_activites">
     <h1 class="test"> {{ user.username }} , voici la liste de vos activités </h1>
-    <a href="{% url 'mon_application:add_activity' %}" class="btn-entete-1">Ajouter une activité</a>    
+    <a href="{% url 'mon_application:add_activity' %}" class="btn-entete-1">Ajouter une activité</a>
 </div>
 
 
@@ -12,28 +20,30 @@
 <div class="activity-container">
     <div class="activity-row">
         {% if activities %}
-            {% for activity in activities %}
-                <div class="activity-card">
-                    <div class="activity-card-body">
+        {% for activity in activities %}
+        <div class="activity-card">
+            <div class="activity-card-body">
 
-                        <p class="activity-card-text-date">Activité du {{ activity.date|date:"d F Y H:i" }}</p>     
-                        <p class="activity-card-text">Description: {{ activity.name }}</p>                    
-                        <p class="activity-card-text">Marche : {{ activity.marche }} km</p>
-                        <p class="activity-card-text">Jogging : {{ activity.jogging }} km</p>
-                        <p class="activity-card-text">Vélo : {{ activity.velo }} km</p>
-                        <p class="activity-card-text">Total : {{ activity.total }} km</p>
-                        <p class="activity-card-text">Calories brûlées : {{ activity.calories }} kcal</p>
-                        
-                        <div class="activity-actions">
-                            <a href="{% url 'mon_application:edit_activity' activity.pk %}" class="btn-modifier-activite">Modifier</a>
+                <p class="activity-card-text-date">Activité du {{ activity.date|date:"d F Y H:i" }}</p>
+                <p class="activity-card-text">Description: {{ activity.name }}</p>
+                <p class="activity-card-text">Marche : {{ activity.marche }} km</p>
+                <p class="activity-card-text">Jogging : {{ activity.jogging }} km</p>
+                <p class="activity-card-text">Vélo : {{ activity.velo }} km</p>
+                <p class="activity-card-text">Total : {{ activity.total }} km</p>
+                <p class="activity-card-text">Calories brûlées : {{ activity.calories }} kcal</p>
 
-                            <a href="{% url 'mon_application:delete_activity' activity.pk %}" class="btn-supprimer-activite" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette activité ?');">Supprimer</a>
-                        </div>
-                    </div>
+                <div class="activity-actions">
+                    <a href="{% url 'mon_application:edit_activity' activity.pk %}"
+                        class="btn-modifier-activite">Modifier</a>
+
+                    <a href="{% url 'mon_application:delete_activity' activity.pk %}" class="btn-supprimer-activite"
+                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette activité ?');">Supprimer</a>
                 </div>
-            {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
         {% else %}
-            <p>Aucune activité enregistrée.</p>
+        <p>Aucune activité enregistrée.</p>
         {% endif %}
     </div>
 </div>

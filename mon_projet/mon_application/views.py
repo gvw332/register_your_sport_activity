@@ -8,11 +8,28 @@ from django.contrib.auth.forms import UserCreationForm
 # from django.http import HttpResponse
 def accueil_view(request):
     activities = Activity.objects.all()  # Récupère toutes les activités
+
+    # Récupérer les objectifs de l'utilisateur
+    try:
+        user_objective = UserObjective.objects.get(user=request.user)
+    except UserObjective.DoesNotExist:
+        user_objective = UserObjective(objectif_marche=10, objectif_jogging=5, objectif_velo=20)
+
+    # Totaux
+    total_marche = Activity.objects.aggregate(Sum('marche'))['marche__sum'] or 0
+    total_jogging = Activity.objects.aggregate(Sum('jogging'))['jogging__sum'] or 0
+    total_velo = Activity.objects.aggregate(Sum('velo'))['velo__sum'] or 0
+    total_calories = Activity.objects.aggregate(Sum('calories'))['calories__sum'] or 0
+
     context = {
-        'activities': activities
+        'activities': activities,
+        'user_objective': user_objective,
+        'total_marche': total_marche,
+        'total_jogging': total_jogging,
+        'total_velo': total_velo,
+        'total_calories': total_calories,
     }
     return render(request, 'mon_application/accueil.html', context)
-
 # def accueil(request):
 #     if request.user.is_authenticated:
 #         # L'utilisateur est authentifié, récupère ses objectifs et ses activités
@@ -110,35 +127,26 @@ def edit_activity(request, pk):
     return render(request, 'edit_activity.html', {'form': form, 'activity': activity})
 @login_required
 def delete_activity(request, pk):
+
     activity = get_object_or_404(Activity, pk=pk)
     if request.method == 'POST':
         activity.delete()
         # Redirection vers la liste des activités
         return redirect('mon_application:activity_list')  # Redirection correcte vers l'URL
     return render(request, 'confirm_delete.html', {'activity': activity})  # Le bon template pour la confirmation
+
 @login_required
 def statistics_view(request):
     # Objectifs
-    if request.user.is_authenticated:
-        try:
-            objectives = UserObjective.objects.get(user=request.user)
-            objectif_marche = objectives.objectif_marche
-            objectif_jogging = objectives.objectif_jogging
-            objectif_velo = objectives.objectif_velo
-        except UserObjective.DoesNotExist:
-            objectif_marche = 10
-            objectif_jogging = 5
-            objectif_velo = 20
-    else:
-    # Si l'utilisateur est anonyme
-        objectif_marche = 10
-        objectif_jogging = 5
-        objectif_velo = 20
+    try:
+        user_objective = UserObjective.objects.get(user=request.user)
+    except UserObjective.DoesNotExist:
+        user_objective = UserObjective(objectif_marche=10, objectif_jogging=5, objectif_velo=20)
+
     # Totaux
     total_marche = Activity.objects.aggregate(Sum('marche'))['marche__sum'] or 0
     total_jogging = Activity.objects.aggregate(Sum('jogging'))['jogging__sum'] or 0
     total_velo = Activity.objects.aggregate(Sum('velo'))['velo__sum'] or 0
-    total_total = total_marche + total_jogging + total_velo
     total_calories = Activity.objects.aggregate(Sum('calories'))['calories__sum'] or 0
 
     # Dernier enregistrement
@@ -148,19 +156,16 @@ def statistics_view(request):
     distance_velo_derniere = dernier_encodage.velo if dernier_encodage else 0
 
     # Progression
-    progression_marche = (distance_marche_derniere / objectif_marche * 100) if objectif_marche > 0 else 0
-    progression_jogging = (distance_jogging_derniere / objectif_jogging * 100) if objectif_jogging > 0 else 0
-    progression_velo = (distance_velo_derniere / objectif_velo * 100) if objectif_velo > 0 else 0
+    progression_marche = (distance_marche_derniere / user_objective.objectif_marche * 100) if user_objective.objectif_marche > 0 else 0
+    progression_jogging = (distance_jogging_derniere / user_objective.objectif_jogging * 100) if user_objective.objectif_jogging > 0 else 0
+    progression_velo = (distance_velo_derniere / user_objective.objectif_velo * 100) if user_objective.objectif_velo > 0 else 0
 
     context = {
         'total_marche': total_marche,
         'total_jogging': total_jogging,
         'total_velo': total_velo,
-        'total_total': total_total,
         'total_calories': total_calories,
-        'objectif_marche': objectif_marche,
-        'objectif_jogging': objectif_jogging,
-        'objectif_velo': objectif_velo,
+        'user_objective': user_objective,
         'distance_marche_derniere': distance_marche_derniere,
         'distance_jogging_derniere': distance_jogging_derniere,
         'distance_velo_derniere': distance_velo_derniere,
@@ -169,7 +174,8 @@ def statistics_view(request):
         'progression_velo': progression_velo,
     }
     
-    return render(request, 'accueil.html', context)
+    return render(request, 'statistics_view.html', context)
+
 
 @login_required
 def update_objectives(request):
@@ -191,3 +197,21 @@ def update_objectives(request):
 
 
 
+@login_required
+def user_objectives_view(request):
+    # Récupérer ou créer les objectifs de l'utilisateur connecté
+    user_objective, created = UserObjective.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = UserObjectiveForm(request.POST, instance=user_objective)
+        if form.is_valid():
+            form.save()
+            return redirect('mon_application:user_objectives')  # Redirection après modification
+    else:
+        form = UserObjectiveForm(instance=user_objective)
+
+    context = {
+        'form': form,
+        'user_objective': user_objective,
+    }
+    return render(request, 'user_objectives.html', context)

@@ -355,8 +355,8 @@ margin-bottom: 20px;
 
 
 .entete_liste_activites .btn-entete-1{
-    border:1px solid blue;
-    background-color: #007BFF;
+   
+    background-color: #149a33;
     color:white;
     padding:10px;
     border-radius: 8px;
@@ -390,4 +390,40 @@ margin-bottom: 20px;
     padding:10px;
     border-radius: 8px;
     text-decoration: none;
+}
+
+
+/* NAVIGATION ACTIVITES OBJECTIFS STATISTIQUES */
+nav.navigation_activites_objectifs_statistiques ul {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+    margin: 25px auto;
+    padding: 0; 
+    
+}
+nav.navigation_activites_objectifs_statistiques ul li {
+    padding: 10px 20px; 
+    border-radius: 25px; 
+    list-style-type: none;
+    margin: 0 10px; 
+    background-color: #007bff; 
+    color: white;
+    transition: background-color 0.3s, transform 0.3s; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+nav.navigation_activites_objectifs_statistiques ul li:hover {
+    background-color: #0056b3; 
+    transform: translateY(-2px);
+    border:1px solid white; 
+}
+
+nav.navigation_activites_objectifs_statistiques ul li a {
+    text-decoration: none;
+}
+
+.statistics-section{
+    text-align: center;
 }
