@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Accueil{% endblock %}
-
+{% load static %}
 {% block content %}
 
 
@@ -14,16 +14,13 @@
             <li><a href="{% url 'mon_application:statistics_view' %}">Mes statistiques</a></li>
         </ul>
     </nav>
-
-
-
-
+    <img class="img-accueil" src="{% static 'images/img-accueil.jpg' %}" alt="Logo">
 
     
-    {% else %}
-    <h1>Connectez-vous pour avoir un accès complet aux fonctionnalités de "trackerSport"</h1>
+    {% else %}    
     <h1>Bienvenue sur l'Application de Suivi d'Activités</h1>
     <p>Veuillez vous connecter pour accéder à la liste des activités.</p>
+    <img class="img-accueil" src="{% static 'images/img-accueil.jpg' %}" alt="Logo">
     {% endif %}
 
 {% endblock %}

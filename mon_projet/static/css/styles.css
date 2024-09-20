@@ -57,7 +57,14 @@ li.navbar-user{
     color: rgb(255, 238, 3);
 }
 
-
+/* ACCUEIL */
+.img-accueil {
+    width: 65%; /* Prend toute la largeur de la fenêtre */
+    height: auto; /* Conserve les proportions de l'image */
+    display: block; /* Évite les espaces en bas de l'image */
+    margin: auto; /* Supprime les marges par défaut */
+    padding: 0; /* Supprime le padding par défaut */
+}
 /* PAGE DE CONTACT */
 
 
