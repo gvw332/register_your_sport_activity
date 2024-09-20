@@ -87,11 +87,15 @@ def add_activity(request):
     if request.method == 'POST':
         form = ActivityForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('activity_list')
+            activity = form.save(commit=False)  # Ne pas enregistrer tout de suite
+            activity.user = request.user  # Si tu as besoin d'associer un utilisateur
+            activity.save()  # Enregistre l'activité et calcule total et calories
+            return redirect('mon_application:activity_list')
     else:
         form = ActivityForm()
+    
     return render(request, 'add_activity.html', {'form': form})
+
 @login_required
 def edit_activity(request, pk):
     activity = get_object_or_404(Activity, pk=pk)
@@ -99,19 +103,19 @@ def edit_activity(request, pk):
         form = ActivityForm(request.POST, instance=activity)
         if form.is_valid():
             form.save()
-            return redirect('activity_list')
+            return redirect('mon_application:activity_list')
     else:
         form = ActivityForm(instance=activity)
-    return render(request, 'accueil.html', {'form': form})
+    
+    return render(request, 'edit_activity.html', {'form': form, 'activity': activity})
 @login_required
 def delete_activity(request, pk):
     activity = get_object_or_404(Activity, pk=pk)
     if request.method == 'POST':
         activity.delete()
-        return redirect('activity_list')
-    return render(request, 'accueil.html', {'activity': activity})
-
-
+        # Redirection vers la liste des activités
+        return redirect('mon_application:activity_list')  # Redirection correcte vers l'URL
+    return render(request, 'confirm_delete.html', {'activity': activity})  # Le bon template pour la confirmation
 @login_required
 def statistics_view(request):
     # Objectifs

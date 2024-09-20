@@ -5,6 +5,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #555 !important; 
 }
+
 h1,p{
 
     text-align: center;
@@ -343,4 +344,50 @@ hr {
     color: #dc3545;
     font-size: 14px;
     margin-top: 5px;
+}
+
+
+/* LISTE DES ACTIVITES */
+.entete_liste_activites{
+text-align: center;
+margin-bottom: 20px;
+}
+
+
+.entete_liste_activites .btn-entete-1{
+    border:1px solid blue;
+    background-color: #007BFF;
+    color:white;
+    padding:10px;
+    border-radius: 8px;
+    text-decoration: none;
+    
+}
+.activity-card-body{
+    border:1px solid yellow;
+}
+.activity-card-text-date {
+    color: black;
+    font-style: italic;
+}
+.activity-actions{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.btn-modifier-activite{
+    border:1px solid blue;
+    background-color: #007BFF;
+    color:white;
+    padding:10px;
+    border-radius: 8px;
+    text-decoration: none;
+}   
+.btn-supprimer-activite{
+    border:1px solid red;
+    background-color: red;
+    color:rgb(0, 0, 0);
+    padding:10px;
+    border-radius: 8px;
+    text-decoration: none;
 }

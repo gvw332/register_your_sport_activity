@@ -26,7 +26,7 @@
 
                 {% if user.is_authenticated %}
                 <li class="navbar-user">Bonjour, {{ user.username }}</li>
-                <li><a href="{% url 'deconnexion' %}"> deconnexion </a></li>
+                <li><a href="{% url 'deconnexion' %}" onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');"> deconnexion </a></li>
                 {% comment %}
                 <form action="{% url 'deconnexion' %}" method="post">
                     {% csrf_token %}
@@ -35,7 +35,7 @@
                 {% endcomment %}
                 {% else %}
                 <li class="btn-login"><a href="{% url 'connexion' %}">Connexion</a></li>
-                <li class="btn-login"><a href="{% url 'inscription' %}">Inscription</a></li>
+                <li class="btn-login" ><a href="{% url 'inscription' %}">Inscription</a></li>
                 {% endif %}
             </ul>
         </nav>

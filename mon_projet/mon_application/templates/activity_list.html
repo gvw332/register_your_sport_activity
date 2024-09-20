@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% block title %} Liste des Activités {% endblock %}
-
+{% load static %}
 {% block content %}
+<div class="entete_liste_activites">
+    <h1 class="test"> {{ user.username }} , voici la liste de vos activités </h1>
+    <a href="{% url 'mon_application:add_activity' %}" class="btn-entete-1">Ajouter une activité</a>    
+</div>
 
-<h1 class="test">Liste des Activités</h1>
-<a href="{% url 'mon_application:add_activity' %}" class="btn btn-primary">Ajouter une activité</a>
-<a href="{% url 'mon_application:statistics_view' %}" class="btn btn-secondary">Voir les statistiques</a>
 
 
 <div class="activity-container">
@@ -14,17 +15,19 @@
             {% for activity in activities %}
                 <div class="activity-card">
                     <div class="activity-card-body">
-                        <h5 class="activity-card-title">Activité du {{ activity.date }}</h5>
-                        
+
+                        <p class="activity-card-text-date">Activité du {{ activity.date|date:"d F Y H:i" }}</p>     
+                        <p class="activity-card-text">Description: {{ activity.name }}</p>                    
                         <p class="activity-card-text">Marche : {{ activity.marche }} km</p>
                         <p class="activity-card-text">Jogging : {{ activity.jogging }} km</p>
                         <p class="activity-card-text">Vélo : {{ activity.velo }} km</p>
                         <p class="activity-card-text">Total : {{ activity.total }} km</p>
-                        <p class="activity-card-text">Calories brûlées : {{ activity.calories }}</p>
+                        <p class="activity-card-text">Calories brûlées : {{ activity.calories }} kcal</p>
                         
                         <div class="activity-actions">
-                            <a href="{% url 'edit_activity' activity.pk %}" class="btn btn-warning">Modifier</a>
-                            <a href="{% url 'delete_activity' activity.pk %}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette activité ?');">Supprimer</a>
+                            <a href="{% url 'mon_application:edit_activity' activity.pk %}" class="btn-modifier-activite">Modifier</a>
+
+                            <a href="{% url 'mon_application:delete_activity' activity.pk %}" class="btn-supprimer-activite" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette activité ?');">Supprimer</a>
                         </div>
                     </div>
                 </div>
