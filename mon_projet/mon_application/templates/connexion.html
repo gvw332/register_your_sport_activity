@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} Connexion {% endblock %}
+
+{% block content %}
+<div class="connexion-container">
+    <h1 class="connexion-title">Connexion</h1>
+    <form method="POST" class="connexion-form">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="connexion-form-group">
+                <label class="connexion-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                    <div class="connexion-error">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="connexion-button">Se connecter</button>
+    </form>
+</div>
+{% endblock %}

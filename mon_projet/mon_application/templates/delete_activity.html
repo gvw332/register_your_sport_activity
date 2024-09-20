@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} Supprimer Activité {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Êtes-vous sûr de vouloir supprimer l'activité ?</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmer</button>
+        <a href="{% url 'activity_list' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

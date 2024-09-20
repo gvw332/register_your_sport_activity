@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} Mettre à jour les Objectifs {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Mettre à jour vos objectifs</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Sauvegarder les objectifs</button>
+    </form>
+</div>
+{% endblock %}

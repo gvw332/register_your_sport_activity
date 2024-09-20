@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.pyo
+
+
+EnvAppSportDjango
+
+mon_projet/mon_projet/settings.py

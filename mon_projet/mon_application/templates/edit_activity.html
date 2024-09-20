@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %} {% if form.instance.pk %} Modifier Activité {% else %} Ajouter Activité {% endif %} {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{% if form.instance.pk %}Modifier{% else %}Ajouter{% endif %} une activité</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">
+            {% if form.instance.pk %} Sauver les modifications {% else %} Ajouter activité {% endif %}
+        </button>
+    </form>
+
+    <a href="{% url 'activity_list' %}" class="btn btn-secondary">Retour vers la liste</a>
+</div>
+{% endblock %}

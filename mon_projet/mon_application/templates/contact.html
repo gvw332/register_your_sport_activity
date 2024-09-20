@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %} Contact {% endblock %}
+
+{% block content %}
+<div class="contact-container">
+    <h1>Contactez-nous</h1>
+    <p>Si vous avez des questions ou des commentaires, <br> n'hésitez pas à nous contacter en utilisant le formulaire ci-dessous.</p>
+
+    <form class="form-contact" method="post" action="{% url 'contact' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Nom</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="subject">Sujet</label>
+            <input type="text" class="form-control" id="subject" name="subject" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    </form>
+
+    <hr>
+
+    <h2>Informations de contact</h2>
+    <p>Adresse : 123 Rue de l'Exemple, 75000 Paris, France</p>
+    <p>Téléphone : +33 1 23 45 67 89</p>
+    <p>Email : contact@example.com</p>
+</div>
+{% endblock %}
+

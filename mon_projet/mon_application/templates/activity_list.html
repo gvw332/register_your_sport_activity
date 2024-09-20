@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %} Liste des Activités {% endblock %}
+
+{% block content %}
+
+<h1 class="test">Liste des Activités</h1>
+<a href="{% url 'mon_application:add_activity' %}" class="btn btn-primary">Ajouter une activité</a>
+<a href="{% url 'mon_application:statistics_view' %}" class="btn btn-secondary">Voir les statistiques</a>
+
+
+<div class="activity-container">
+    <div class="activity-row">
+        {% if activities %}
+            {% for activity in activities %}
+                <div class="activity-card">
+                    <div class="activity-card-body">
+                        <h5 class="activity-card-title">Activité du {{ activity.date }}</h5>
+                        
+                        <p class="activity-card-text">Marche : {{ activity.marche }} km</p>
+                        <p class="activity-card-text">Jogging : {{ activity.jogging }} km</p>
+                        <p class="activity-card-text">Vélo : {{ activity.velo }} km</p>
+                        <p class="activity-card-text">Total : {{ activity.total }} km</p>
+                        <p class="activity-card-text">Calories brûlées : {{ activity.calories }}</p>
+                        
+                        <div class="activity-actions">
+                            <a href="{% url 'edit_activity' activity.pk %}" class="btn btn-warning">Modifier</a>
+                            <a href="{% url 'delete_activity' activity.pk %}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette activité ?');">Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Aucune activité enregistrée.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

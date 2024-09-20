@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Ajouter Activité {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Ajouter les données de la journée :</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        {% if form.errors %}
+            <div class="errors">
+                <ul>
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <li>{{ field.label }}: {{ field.errors }}</li>
+                        {% endif %} 
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        
+        <button type="submit" class="btn btn-primary">Ajouter activité</button>
+    </form>
+    
+    <a href="{% url 'activity_list' %}" class="btn btn-secondary">Retour sur la liste des activités</a>
+</div>
+{% endblock %}

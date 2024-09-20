@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Charger le fichier CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">    
+    <title>{% block title %} {% endblock %}</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <a href="{% url 'accueil' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo">
+                </a>
+            </div>
+            <ul class="navbar-links">
+                <li><a href="{% url 'accueil' %}">Accueil</a></li>
+                <li><a href="{% url 'admin:index' %}">Admin</a></li>
+
+
+                {% if user.is_authenticated %}
+                <li class="navbar-user">Bonjour, {{ user.username }}</li>
+                <li><a href="{% url 'deconnexion' %}"> deconnexion </a></li>
+                {% comment %}
+                <form action="{% url 'deconnexion' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Déconnexion</button>
+                </form>
+                {% endcomment %}
+                {% else %}
+                <li class="btn-login"><a href="{% url 'connexion' %}">Connexion</a></li>
+                <li class="btn-login"><a href="{% url 'inscription' %}">Inscription</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    
+    </header>
+
+    <main>
+        {% block content %} 
+        <!-- Contenu propre à chaque page ici -->
+        {% endblock %}
+    </main>
+    
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Logo -->
+            <div class="footer-logo">
+                <a href="#"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
+            </div>
+    
+            <!-- Social Media Links -->
+            <div class="footer-socials">
+                <a href="#"><img src="{% static 'images/facebook.png' %}" alt="icone facebook"></a>
+                <a href="#"><img src="{% static 'images/twitter.png' %}" alt="icone twitter"></a>
+                <a href="#"><img src="{% static 'images/linkedin.png' %}" alt="icone linkedin"></a>
+                <a href="#"><img src="{% static 'images/github.png' %}" alt="icone github"></a>
+            </div>
+    
+            <!-- Legal Links -->
+            <div class="footer-links">
+                <a href="#">Mentions légales</a>
+                <a href="#">Conditions d'utilisation</a>
+            </div>
+    
+            <!-- Copyright -->
+            <div class="footer-copyright">
+                <p>&copy; 2024 Ton Entreprise. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

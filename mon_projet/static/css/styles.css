@@ -1,0 +1,346 @@
+/* SUR TOUTES LES PAGES*/
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #555 !important; 
+}
+h1,p{
+
+    text-align: center;
+    color:rgb(255, 255, 255);
+}
+/* barre de navigation */ 
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;    
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    height: 100px; 
+}
+
+.navbar-logo img {
+   
+    width: 140px;
+    margin-left: 70px;        
+}
+
+.navbar-links {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+    margin-right: 50px;
+    padding: 0;
+}
+
+.navbar-links li {
+    display: inline;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: background-color 0.3s;
+}
+
+.navbar-links a:hover {
+    background-color: #555;
+    border-radius: 5px;
+}
+
+li.navbar-user{
+    color: rgb(255, 238, 3);
+}
+
+
+/* PAGE DE CONTACT */
+
+
+.contact-container {
+    max-width: 800px;
+    margin:50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.contact-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.contact-container p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.form-contact{
+    width:100%;
+}
+
+.form-group {
+   
+    text-align: left;
+    max-width: 500px;
+    margin:auto;
+}
+
+.form-group label {
+    display: block;
+    padding-top: 15px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    
+}
+
+.form-control {
+    
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.btn-primary {
+    padding: 10px 20px;
+    margin-top: 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+hr {
+    margin: 40px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.contact-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.contact-container p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+
+
+
+/* FOOTER  */
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-logo img {
+    width: 120px;
+}
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    
+}
+
+.footer-socials a img {
+    width: 30px; /* Ajustez la taille des images ici */
+    height: 30px; /* Ajustez la taille des images ici */
+    transition: transform 0.3s ease;
+}
+
+.footer-socials a img:hover {
+    transform: scale(1.2); /* Agrandissement au survol */
+}
+.footer-socials a {
+    color: #fff;
+    font-size: 24px;
+    margin: 0 10px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-socials a:hover {
+    color: #ff9800;
+}
+
+.footer-links a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #ff9800;
+}
+
+.footer-copyright p {
+    font-size: 14px;
+    margin-top: 20px;
+    opacity: 0.7;
+}
+
+
+/* PAGE DE CONNEXION */ 
+.connexion-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.connexion-title {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.connexion-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.connexion-form-group {
+    margin-bottom: 15px;
+}
+
+.connexion-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.connexion-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.connexion-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: center;
+}
+
+.connexion-button:hover {
+    background-color: #0056b3;
+}
+
+.connexion-error {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+
+/* PAGE D'INSCRIPTION */ 
+
+
+.inscription-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.inscription-title {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.inscription-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.inscription-form-group {
+    margin-bottom: 15px;
+}
+
+.inscription-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.inscription-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.inscription-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: center;
+}
+
+.inscription-button:hover {
+    background-color: #0056b3;
+}
+
+.inscription-error {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+}
