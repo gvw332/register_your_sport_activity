@@ -3,27 +3,27 @@
 {% load static %}
 {% block content %}
 
-    <nav class="navigation_activites_objectifs_statistiques">
-        <ul>
-            <li><a href="{% url 'mon_application:activity_list' %}">Mes activités</a></li>
-            <li><a href="{% url 'mon_application:user_objectives' %}">Mes Objectifs</a></li>
-            <li><a href="{% url 'mon_application:statistics_view' %}">Mes statistiques</a></li>
-        </ul>
-    </nav>
+<nav class="navigation_activites_objectifs_statistiques">
+    <ul>
+        <li><a href="{% url 'mon_application:activity_list' %}">Mes activités</a></li>
+        <li><a href="{% url 'mon_application:user_objectives' %}">Mes Objectifs</a></li>
+        <li><a href="{% url 'mon_application:statistics_view' %}">Mes statistiques</a></li>
+    </ul>
+</nav>
 
-    <h1>Mes Objectifs</h1>
+<h1>Mes Objectifs</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Mettre à jour les objectifs</button>
-    </form>
-
+<form class="form-objectifs-user" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Mettre à jour les objectifs</button>
+</form>
+<div class="objectifs-actuels">
     <h2>Objectifs actuels</h2>
     <ul>
         <li>Marche : {{ user_objective.objectif_marche }} km</li>
         <li>Jogging : {{ user_objective.objectif_jogging }} km</li>
         <li>Vélo : {{ user_objective.objectif_velo }} km</li>
     </ul>
-
+</div>
 {% endblock %}

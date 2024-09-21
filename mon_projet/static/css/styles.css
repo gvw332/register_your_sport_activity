@@ -10,6 +10,7 @@ h1,p{
 
     text-align: center;
     color:rgb(255, 255, 255);
+    
 }
 /* barre de navigation */ 
 .navbar {
@@ -23,8 +24,9 @@ h1,p{
 
 .navbar-logo img {
    
-    width: 140px;
-    margin-left: 70px;        
+    width: 90px;
+    margin-left: 70px; 
+    border-radius: 10px;       
 }
 
 .navbar-links {
@@ -59,10 +61,11 @@ li.navbar-user{
 
 /* ACCUEIL */
 .img-accueil {
+    min-width: 300px;
     width: 65%; /* Prend toute la largeur de la fenêtre */
     height: auto; /* Conserve les proportions de l'image */
     display: block; /* Évite les espaces en bas de l'image */
-    margin: auto; /* Supprime les marges par défaut */
+    margin: 25px auto 50px auto; /* Supprime les marges par défaut */
     padding: 0; /* Supprime le padding par défaut */
 }
 /* PAGE DE CONTACT */
@@ -95,6 +98,24 @@ li.navbar-user{
     width:100%;
 }
 
+/* OBJECTIFS*/
+.btn.btn-primary{
+    background-color: #149a33;
+}
+.objectifs-actuels{
+    border:1px solid black;
+    background-color: #ced4da7a;
+}
+.objectifs-actuels h2, .objectifs-actuels ul {
+    text-align: center;
+   
+}
+.objectifs-actuels ul li{
+    list-style-type: none;
+}
+form{
+    text-align: center;
+}
 .form-group {
    
     text-align: left;
@@ -179,7 +200,8 @@ hr {
 }
 
 .footer-logo img {
-    width: 120px;
+    width: 100px;
+    border-radius: 10px;
 }
 .footer-socials {
     display: flex;
@@ -247,6 +269,7 @@ hr {
 .connexion-form {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .connexion-form-group {
