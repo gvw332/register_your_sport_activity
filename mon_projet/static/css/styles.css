@@ -460,7 +460,7 @@ nav.navigation_activites_objectifs_statistiques ul li a {
 
 
 .graphique{
-    width: 100%;
-    height: auto;
+    width: 800px !important;
+    margin:auto;
     background-color: white;
 }
