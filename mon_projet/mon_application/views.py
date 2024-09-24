@@ -5,6 +5,12 @@ from django.contrib.auth.decorators import login_required
 from .models import UserObjective, Activity
 from .forms import UserObjectiveForm
 from django.contrib.auth.forms import UserCreationForm
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from .serializers import ActivitySerializer, UserObjectiveSerializer
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+
 # from django.http import HttpResponse
 def accueil_view(request):
     activities = Activity.objects.all()  # Récupère toutes les activités
@@ -30,66 +36,10 @@ def accueil_view(request):
         'total_calories': total_calories,
     }
     return render(request, 'mon_application/accueil.html', context)
-# def accueil(request):
-#     if request.user.is_authenticated:
-#         # L'utilisateur est authentifié, récupère ses objectifs et ses activités
-#         try:
-#             objectives = UserObjective.objects.get(user=request.user)
-#             objectif_marche = objectives.objectif_marche
-#             objectif_jogging = objectives.objectif_jogging
-#             objectif_velo = objectives.objectif_velo
-#         except UserObjective.DoesNotExist:
-#             objectif_marche = 10
-#             objectif_jogging = 5
-#             objectif_velo = 20
-
-#         # Totaux
-#         total_marche = Activity.objects.aggregate(Sum('marche'))['marche__sum'] or 0
-
-
-#         total_jogging = Activity.objects.aggregate(Sum('jogging'))['jogging__sum'] or 0
-#         total_velo = Activity.objects.aggregate(Sum('velo'))['velo__sum'] or 0
-#         total_total = total_marche + total_jogging + total_velo
-#         total_calories = Activity.objects.aggregate(Sum('calories'))['calories__sum'] or 0
-
-#         # Dernier enregistrement
-#         dernier_encodage = Activity.objects.last()
-#         distance_marche_derniere = dernier_encodage.marche if dernier_encodage else 0
-#         distance_jogging_derniere = dernier_encodage.jogging if dernier_encodage else 0
-#         distance_velo_derniere = dernier_encodage.velo if dernier_encodage else 0
-#         activities = Activity.objects.all()
-#         # Progression
-#         progression_marche = (distance_marche_derniere / objectif_marche * 100) if objectif_marche > 0 else 0
-#         progression_jogging = (distance_jogging_derniere / objectif_jogging * 100) if objectif_jogging > 0 else 0
-#         progression_velo = (distance_velo_derniere / objectif_velo * 100) if objectif_velo > 0 else 0
-
-#         context = {
-#             'total_marche': total_marche,
-#             'total_jogging': total_jogging,
-#             'total_velo': total_velo,
-#             'total_total': total_total,
-#             'total_calories': total_calories,
-#             'objectif_marche': objectif_marche,
-#             'objectif_jogging': objectif_jogging,
-#             'objectif_velo': objectif_velo,
-#             'distance_marche_derniere': distance_marche_derniere,
-#             'distance_jogging_derniere': distance_jogging_derniere,
-#             'distance_velo_derniere': distance_velo_derniere,
-#             'progression_marche': progression_marche,
-#             'progression_jogging': progression_jogging,
-#             'progression_velo': progression_velo,
-#             'activities': activities
-#         }
-#     else:
-#         # Si l'utilisateur est anonyme, il peut voir une page d'accueil simplifiée sans données d'utilisateur
-#         context = {
-#             'message': "Veuillez vous connecter pour voir vos statistiques."
-#         }
-
-#     return render(request, 'accueil.html', context)
 
 def contact(request):
     return render(request, 'contact.html')
+
 @login_required
 def activity_list(request):
     if request.user.is_authenticated:
@@ -97,7 +47,6 @@ def activity_list(request):
     else:
         activities = []
     return render(request, 'activity_list.html', {'activities': activities})
-
 
 @login_required
 def add_activity(request):
@@ -215,3 +164,29 @@ def user_objectives_view(request):
         'user_objective': user_objective,
     }
     return render(request, 'user_objectives.html', context)
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def activity_list_api(request):
+    if request.method == 'GET':
+        activities = Activity.objects.all()
+        serializer = ActivitySerializer(activities, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = ActivitySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)  # Associe l'utilisateur connecté
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def user_objective_api(request):
+    try:
+        user_objective = UserObjective.objects.get(user=request.user)
+    except UserObjective.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = UserObjectiveSerializer(user_objective)
+    return Response(serializer.data)

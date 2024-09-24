@@ -19,14 +19,18 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
-    
-    path('', views.accueil, name="accueil"),  
+    path('', views.accueil, name="accueil"),
     path('admin/', admin.site.urls),
     path('utilisateur/', include('utilisateur.urls')),
-    path('mon_application/', include('mon_application.urls')),
     
-    # autres URLs
+    # Routes pour les API de token
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # Rediriger l'API des activités vers l'URL appropriée
+    path('api/activities/', include('mon_application.urls')), 
 ]
 

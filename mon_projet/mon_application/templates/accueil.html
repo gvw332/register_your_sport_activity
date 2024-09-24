@@ -5,8 +5,8 @@
 
 
 
-    {% if user.is_authenticated %}
-    <h1>Bienvenue, {{ user.username }} !</h1>
+    {% if user.is_authenticated %}    
+    <h1>Application de Suivi d'Activités</h1>
     <nav class="navigation_activites_objectifs_statistiques">
         <ul>
             <li><a href="{% url 'mon_application:activity_list' %}">Mes activités</a></li>
