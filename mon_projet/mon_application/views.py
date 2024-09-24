@@ -27,6 +27,9 @@ def accueil_view(request):
     total_velo = Activity.objects.aggregate(Sum('velo'))['velo__sum'] or 0
     total_calories = Activity.objects.aggregate(Sum('calories'))['calories__sum'] or 0
 
+    # Calcul du total des kilomètres effectués
+    total_kilometres = total_marche + total_jogging + total_velo
+
     context = {
         'activities': activities,
         'user_objective': user_objective,
@@ -34,7 +37,9 @@ def accueil_view(request):
         'total_jogging': total_jogging,
         'total_velo': total_velo,
         'total_calories': total_calories,
+        'total_kilometres': total_kilometres,  # Vérifie que cette ligne est présente
     }
+    
     return render(request, 'mon_application/accueil.html', context)
 
 def contact(request):
@@ -90,16 +95,24 @@ def statistics_view(request):
     try:
         user_objective = UserObjective.objects.get(user=request.user)
     except UserObjective.DoesNotExist:
+        # Si l'utilisateur n'a pas d'objectifs définis, on lui en assigne par défaut
         user_objective = UserObjective(objectif_marche=10, objectif_jogging=5, objectif_velo=20)
 
-    # Totaux
-    total_marche = Activity.objects.aggregate(Sum('marche'))['marche__sum'] or 0
-    total_jogging = Activity.objects.aggregate(Sum('jogging'))['jogging__sum'] or 0
-    total_velo = Activity.objects.aggregate(Sum('velo'))['velo__sum'] or 0
-    total_calories = Activity.objects.aggregate(Sum('calories'))['calories__sum'] or 0
+    # Filtrer les activités pour l'utilisateur connecté
+    user_activities = Activity.objects.filter(user=request.user)
 
+    # Totaux
+    total_marche = user_activities.aggregate(Sum('marche'))['marche__sum'] or 0
+    total_jogging = user_activities.aggregate(Sum('jogging'))['jogging__sum'] or 0
+    total_velo = user_activities.aggregate(Sum('velo'))['velo__sum'] or 0
+
+    total_calories = user_activities.aggregate(Sum('calories'))['calories__sum'] or 0
+
+    # Calcul du total des kilomètres effectués
+    total_kilometres = total_marche + total_jogging + total_velo
+    
     # Dernier enregistrement
-    dernier_encodage = Activity.objects.last()
+    dernier_encodage = user_activities.last()
     distance_marche_derniere = dernier_encodage.marche if dernier_encodage else 0
     distance_jogging_derniere = dernier_encodage.jogging if dernier_encodage else 0
     distance_velo_derniere = dernier_encodage.velo if dernier_encodage else 0
@@ -114,6 +127,7 @@ def statistics_view(request):
         'total_jogging': total_jogging,
         'total_velo': total_velo,
         'total_calories': total_calories,
+        'total_kilometres': total_kilometres, 
         'user_objective': user_objective,
         'distance_marche_derniere': distance_marche_derniere,
         'distance_jogging_derniere': distance_jogging_derniere,
@@ -121,8 +135,9 @@ def statistics_view(request):
         'progression_marche': progression_marche,
         'progression_jogging': progression_jogging,
         'progression_velo': progression_velo,
+        
     }
-    
+
     return render(request, 'statistics_view.html', context)
 
 
@@ -148,7 +163,7 @@ def update_objectives(request):
 
 @login_required
 def user_objectives_view(request):
-    # Récupérer ou créer les objectifs de l'utilisateur connecté
+    # Récupérer ou créer les objectifs de l'utilisateur connecté avec des valeurs par défaut à zéro
     user_objective, created = UserObjective.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
@@ -164,7 +179,6 @@ def user_objectives_view(request):
         'user_objective': user_objective,
     }
     return render(request, 'user_objectives.html', context)
-
 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])

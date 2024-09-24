@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import *
 from django.contrib import messages
+from django.urls import reverse
 # Create your views here.
 
 def inscription(request):
@@ -12,7 +13,8 @@ def inscription(request):
         if form.is_valid():
             user = form.save()
             login(request,user)
-            return redirect('liste')
+            return redirect('mon_application:activity_list')  # Utilise le nom correct ici
+
         
     else:
         form = Inscription_Form()

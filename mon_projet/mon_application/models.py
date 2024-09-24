@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Activity(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE) # Ajouter null=True pour pouvoir makemigration et migrate  
+    user = models.ForeignKey(User,null=True ,on_delete=models.CASCADE) # Ajouter null=True pour pouvoir makemigration et migrate  
     date = models.DateTimeField(default=timezone.now)
     name = models.CharField(max_length=100)
     marche = models.FloatField(default=0)
@@ -26,7 +26,10 @@ class Activity(models.Model):
 
 
 class UserObjective(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    objectif_marche = models.FloatField(default=10)
-    objectif_jogging = models.FloatField(default=5)
-    objectif_velo = models.FloatField(default=20)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    objectif_marche = models.FloatField(default=0)  # Défaut à zéro
+    objectif_jogging = models.FloatField(default=0)  # Défaut à zéro
+    objectif_velo = models.FloatField(default=0)  # Défaut à zéro
+
+    def __str__(self):
+        return f"Objectifs de {self.user.username}"

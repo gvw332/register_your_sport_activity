@@ -30,7 +30,8 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    # Rediriger l'API des activités vers l'URL appropriée
-    path('api/activities/', include('mon_application.urls')), 
+    # Ne pas conserver le préfixe /api pour ces routes
+    path('activities/', include('mon_application.urls')),
+     
 ]
 
