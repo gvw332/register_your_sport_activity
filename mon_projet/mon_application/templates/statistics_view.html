@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Statistiques{% endblock %}
 
 {% block content %}
@@ -11,28 +12,46 @@
     </ul>
 </nav>
 
-    <h1>Statistiques Globales</h1>
+<h1>Statistiques Globales</h1>
 
-    <div class="statistics-section">
+<div class="statistics-section">
+    <h2>Total des kilomètres</h2>
+    <p>Total des kilomètres en marche : {{ total_marche }} km</p>
+    <p>Total des kilomètres en jogging : {{ total_jogging }} km</p>
+    <p>Total des kilomètres en vélo : {{ total_velo }} km</p>
+    <p>Total des kilomètres effectués : {{ total_kilometres }} km</p>
 
-        <h2>Total des kilomètres</h2>
-        <p>Total des kilomètres en marche : {{ total_marche }} km</p>
-        <p>Total des kilomètres en jogging : {{ total_jogging }} km</p>
-        <p>Total des kilomètres en vélo : {{ total_velo }} km</p>
-        <p>Total des kilomètres effectués : {{ total_kilometres }} km</p>
+    <h2>Calories Brûlées</h2>
+    <p>Total des calories brûlées : {{ total_calories }} kcal</p>
 
-        <h2>Calories Brûlées</h2>
-
-        <p>Total des calories brûlées : {{ total_calories }} kcal</p>
-        <h2>Objectifs</h2>
-        <p>Objectif de marche : {{ user_objective.objectif_marche }} km</p>
-        <p>Objectif de jogging : {{ user_objective.objectif_jogging }} km</p>
-        <p>Objectif de vélo : {{ user_objective.objectif_velo }} km</p>
-        
-
+    <h2>Objectifs</h2>
+    <p>Objectif de marche : {{ user_objective.objectif_marche }} km</p>
+    <p>Objectif de jogging : {{ user_objective.objectif_jogging }} km</p>
+    <p>Objectif de vélo : {{ user_objective.objectif_velo }} km</p>
+    <div class="graphique">
+        <!-- Ajouter le canvas pour le graphique -->
+        <canvas id="activityChart"></canvas>
     </div>
+</div>
 
-    <a href="{% url 'mon_application:activity_list' %}" class="btn btn-primary">Retour aux activités</a>
+<a href="{% url 'mon_application:activity_list' %}" class="btn btn-primary">Retour aux activités</a>
 
+<!-- Inclure Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Passer les données à JavaScript -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const labels = {{ labels|safe }};  // Dates
+        const marcheData = {{ marche_data|safe }};  // Données de marche
+        const joggingData = {{ jogging_data|safe }};  // Données de jogging
+        const veloData = {{ velo_data|safe }};  // Données de vélo
+        const totalData = {{ total_data|safe }};  // Données totales
+        const caloriesData = {{ calories_data|safe }};  // Données de calories
+        
+        updateChart(labels, marcheData, joggingData, veloData, totalData, caloriesData);
+    });
+</script>
+<!-- Inclure ton fichier JavaScript -->
+<script src="{% static 'javascript/chart.js' %}"></script>
 
 {% endblock %}

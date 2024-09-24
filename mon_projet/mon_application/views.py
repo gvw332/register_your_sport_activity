@@ -95,7 +95,6 @@ def statistics_view(request):
     try:
         user_objective = UserObjective.objects.get(user=request.user)
     except UserObjective.DoesNotExist:
-        # Si l'utilisateur n'a pas d'objectifs définis, on lui en assigne par défaut
         user_objective = UserObjective(objectif_marche=10, objectif_jogging=5, objectif_velo=20)
 
     # Filtrer les activités pour l'utilisateur connecté
@@ -105,40 +104,43 @@ def statistics_view(request):
     total_marche = user_activities.aggregate(Sum('marche'))['marche__sum'] or 0
     total_jogging = user_activities.aggregate(Sum('jogging'))['jogging__sum'] or 0
     total_velo = user_activities.aggregate(Sum('velo'))['velo__sum'] or 0
-
     total_calories = user_activities.aggregate(Sum('calories'))['calories__sum'] or 0
 
-    # Calcul du total des kilomètres effectués
-    total_kilometres = total_marche + total_jogging + total_velo
-    
     # Dernier enregistrement
     dernier_encodage = user_activities.last()
     distance_marche_derniere = dernier_encodage.marche if dernier_encodage else 0
     distance_jogging_derniere = dernier_encodage.jogging if dernier_encodage else 0
     distance_velo_derniere = dernier_encodage.velo if dernier_encodage else 0
 
-    # Progression
-    progression_marche = (distance_marche_derniere / user_objective.objectif_marche * 100) if user_objective.objectif_marche > 0 else 0
-    progression_jogging = (distance_jogging_derniere / user_objective.objectif_jogging * 100) if user_objective.objectif_jogging > 0 else 0
-    progression_velo = (distance_velo_derniere / user_objective.objectif_velo * 100) if user_objective.objectif_velo > 0 else 0
+    # Préparation des données pour le graphique
+    labels = [activity.date.strftime('%Y-%m-%d') for activity in user_activities]  # Assurez-vous d'utiliser le bon champ de date
+    marche_data = [activity.marche for activity in user_activities]
+    jogging_data = [activity.jogging for activity in user_activities]
+    velo_data = [activity.velo for activity in user_activities]
+    calories_data = [activity.calories for activity in user_activities]
+
+    # Calcul des totaux par date
+    total_data = [m + j + v for m, j, v in zip(marche_data, jogging_data, velo_data)]
 
     context = {
         'total_marche': total_marche,
         'total_jogging': total_jogging,
         'total_velo': total_velo,
         'total_calories': total_calories,
-        'total_kilometres': total_kilometres, 
-        'user_objective': user_objective,
         'distance_marche_derniere': distance_marche_derniere,
         'distance_jogging_derniere': distance_jogging_derniere,
         'distance_velo_derniere': distance_velo_derniere,
-        'progression_marche': progression_marche,
-        'progression_jogging': progression_jogging,
-        'progression_velo': progression_velo,
-        
+        'user_objective': user_objective,
+        'labels': labels,  # Les dates pour le graphique
+        'marche_data': marche_data,  # Données de marche
+        'jogging_data': jogging_data,  # Données de jogging
+        'velo_data': velo_data,  # Données de vélo
+        'total_data': total_data,  # Données totales
+        'calories_data': calories_data,  # Données de calories
     }
 
     return render(request, 'statistics_view.html', context)
+
 
 
 @login_required

@@ -457,3 +457,10 @@ nav.navigation_activites_objectifs_statistiques ul li a {
 .statistics-section{
     text-align: center;
 }
+
+
+.graphique{
+    width: 100%;
+    height: auto;
+    background-color: white;
+}
