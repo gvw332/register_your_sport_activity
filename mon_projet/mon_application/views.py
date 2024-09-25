@@ -105,7 +105,7 @@ def statistics_view(request):
     total_jogging = user_activities.aggregate(Sum('jogging'))['jogging__sum'] or 0
     total_velo = user_activities.aggregate(Sum('velo'))['velo__sum'] or 0
     total_calories = user_activities.aggregate(Sum('calories'))['calories__sum'] or 0
-
+    total_kilometres = total_marche + total_jogging + total_velo
     # Dernier enregistrement
     dernier_encodage = user_activities.last()
     distance_marche_derniere = dernier_encodage.marche if dernier_encodage else 0
@@ -127,6 +127,7 @@ def statistics_view(request):
         'total_jogging': total_jogging,
         'total_velo': total_velo,
         'total_calories': total_calories,
+        'total_kilometres': total_kilometres,  
         'distance_marche_derniere': distance_marche_derniere,
         'distance_jogging_derniere': distance_jogging_derniere,
         'distance_velo_derniere': distance_velo_derniere,
