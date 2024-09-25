@@ -73,6 +73,7 @@ function updateChrono() {
         `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
+let activityStarted = false; // Déclaration globale
 // Démarrer l'activité et le chronomètre
 document.getElementById('startActivity').addEventListener('click', function() {
     if (!activityStarted) {
@@ -114,3 +115,5 @@ document.getElementById('stopActivity').addEventListener('click', function() {
         alert("Activité terminée ! Distance totale : " + distance.toFixed(2) + " km, Calories : " + (distance * calorieFactors[activityType]).toFixed(2) + " kcal");
     }
 });
+
+

@@ -5,17 +5,17 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Activity(models.Model):
-    user = models.ForeignKey(User,null=True ,on_delete=models.CASCADE) # Ajouter null=True pour pouvoir makemigration et migrate  
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE) 
     date = models.DateTimeField(default=timezone.now)
     name = models.CharField(max_length=100)
     marche = models.FloatField(default=0)
     jogging = models.FloatField(default=0)
     velo = models.FloatField(default=0)
-    total = models.FloatField(default=0,editable=False)
-    calories = models.FloatField(default=0,editable=False)
+    total = models.FloatField(default=0, editable=False)
+    calories = models.FloatField(default=0, editable=False)
+    vitesse = models.FloatField() 
+    
 
-    def format_date(self):
-        return self.date.strftime("%d %B %Y")  # Formate la date en "jour mois année"
     def save(self, *args, **kwargs):
         self.total = self.marche + self.jogging + self.velo
         self.calories = (self.marche * 50) + (self.jogging * 70) + (self.velo * 35)

@@ -10,6 +10,9 @@ from rest_framework.response import Response
 from .serializers import ActivitySerializer, UserObjectiveSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from django.http import JsonResponse
+import json
+
 
 # from django.http import HttpResponse
 def accueil_view(request):
@@ -44,6 +47,33 @@ def accueil_view(request):
 
 def contact(request):
     return render(request, 'contact.html')
+
+
+
+@login_required
+def ajouter_activite_ajax(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            
+            # Crée une nouvelle activité
+            activity = Activity.objects.create(
+                user=request.user,
+                name=data['activityType'],
+                marche=data['marche'] if data['activityType'] == 'marche' else 0.0,
+                jogging=data['jogging'] if data['activityType'] == 'jogging' else 0.0,
+                velo=data['velo'] if data['activityType'] == 'velo' else 0.0,
+                total=data['totalDistance'],
+                calories=data['caloriesBurned'],
+            )
+            
+            return JsonResponse({'status': 'Activity saved successfully', 'activity_id': activity.id})
+        except KeyError as e:
+            return JsonResponse({'error': f'Missing key: {str(e)}'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @login_required
 def activity_list(request):

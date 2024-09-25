@@ -14,4 +14,7 @@ urlpatterns = [
     # Routes API - Conservez le préfixe /api pour ces routes
     path('api/activities/', views.activity_list_api, name='activity_list_api'),  # URL API pour la liste des activités
     path('api/user_objective/', views.user_objective_api, name='user_objective_api'),  # URL API pour les objectifs utilisateur
+
+    # Routes ajax 
+     path('ajouter-activite-ajax/', views.ajouter_activite_ajax, name='ajouter_activite_ajax'),  # URL API pour la liste des activités
 ]

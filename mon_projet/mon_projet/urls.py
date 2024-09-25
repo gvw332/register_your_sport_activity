@@ -32,6 +32,7 @@ urlpatterns = [
 
     # Ne pas conserver le préfixe /api pour ces routes
     path('activities/', include('mon_application.urls')),
+    path('mon_application/', include('mon_application.urls')),
      
 ]
 
