@@ -16,6 +16,23 @@
 </div>
 
 
+<div id="map"></div>
+<!-- Sélecteur pour choisir l'activité -->
+<select id="activityType">
+    <option value="marche">Marche</option>
+    <option value="jogging">Jogging</option>
+    <option value="velo">Vélo</option>
+</select>
+
+<button id="startActivity">Démarrer l'activité</button>
+<button id="stopActivity" disabled>Stopper l'activité</button>
+
+<p>Distance parcourue : <span id="distance">0</span> km</p>
+<p>Temps écoulé : <span id="chrono">00:00:00</span></p>
+<p>Vitesse : <span id="speed">0</span> km/h</p>
+<p>Calories dépensées : <span id="calories">0</span> kcal</p>
+
+<script src="{% static 'javascript/leaflet_geolocation.js' %}"></script>
 
 <div class="activity-container">
     <div class="activity-row">

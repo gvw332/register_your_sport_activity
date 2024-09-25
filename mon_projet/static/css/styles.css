@@ -467,3 +467,10 @@ nav.navigation_activites_objectifs_statistiques ul li a {
     margin:auto;
     background-color: white;
 }
+
+/*  MAP LEAFLET */
+
+#map {
+    height: 400px; /* Ajuste la hauteur de la carte */
+    width: 100%;
+}
