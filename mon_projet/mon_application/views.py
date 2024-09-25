@@ -60,11 +60,11 @@ def ajouter_activite_ajax(request):
             activity = Activity.objects.create(
                 user=request.user,
                 name=data['activityType'],
-                marche=data['marche'] if data['activityType'] == 'marche' else 0.0,
-                jogging=data['jogging'] if data['activityType'] == 'jogging' else 0.0,
-                velo=data['velo'] if data['activityType'] == 'velo' else 0.0,
-                total=data['totalDistance'],
-                calories=data['caloriesBurned'],
+                marche=float(data['marche']) if data['activityType'] == 'marche' else 0.0,
+                jogging=float(data['jogging']) if data['activityType'] == 'jogging' else 0.0,
+                velo=float(data['velo']) if data['activityType'] == 'velo' else 0.0,
+                total=float(data['totalDistance']),
+                calories=float(data['caloriesBurned']),
             )
             
             return JsonResponse({'status': 'Activity saved successfully', 'activity_id': activity.id})

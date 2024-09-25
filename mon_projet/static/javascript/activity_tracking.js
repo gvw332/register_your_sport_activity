@@ -18,7 +18,10 @@ function getCookie(name) {
 document.getElementById('stopActivity').addEventListener('click', function() {
     if (activityStarted) {
         activityStarted = false;
-
+        clearInterval(geoInterval);
+        clearInterval(chronoInterval);
+        document.getElementById('startActivity').disabled = false;
+        document.getElementById('stopActivity').disabled = true;
         // Calcul des données
         const speed = (distance / (secondsElapsed / 3600)).toFixed(2);  // Vitesse en km/h
         const data = {
@@ -30,7 +33,7 @@ document.getElementById('stopActivity').addEventListener('click', function() {
             jogging: activityType === 'jogging' ? distance.toFixed(2) : 0,
             velo: activityType === 'velo' ? distance.toFixed(2) : 0
         };
-        // console.log(data);
+        console.log(data);
         // Envoi des données au serveur avec le token CSRF
         fetch('/activities/ajouter-activite-ajax/', {
             method: 'POST',
