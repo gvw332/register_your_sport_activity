@@ -13,7 +13,7 @@ class Activity(models.Model):
     velo = models.FloatField(default=0)
     total = models.FloatField(default=0, editable=False)
     calories = models.FloatField(default=0, editable=False)
-    vitesse = models.FloatField() 
+    vitesse = models.FloatField(default=0, editable=False) 
     
 
     def save(self, *args, **kwargs):
